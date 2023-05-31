@@ -15,13 +15,20 @@ while getopts "i:o:" opt; do
   esac
 done
 
-if [ -z "$input_file" ] || [ -z "$output_file" ]; then
-  echo "Usage: $0 -i <input_file> -o <output_file>"
+if [ -z "$input_file" ]; then
+  echo "Usage: $0 -i <input_file> [-o <output_file>]"
   exit 1
 fi
 
-while IFS= read -r domain; do
+extract_ips() {
+  while IFS= read -r domain; do
     host -t A "$domain" | awk '{print $NF}' | sort | uniq
-done < <(cat "$input_file" | jq '.log.entries[].request.url' -r | sed 's|^.*//||' | awk -F/ '{print $1}' | sort | uniq) | sort -u > "$output_file"
+  done < <(cat "$input_file" | jq '.log.entries[].request.url' -r | sed 's|^.*//||' | awk -F/ '{print $1}' | sort | uniq)
+}
 
-echo "IP addresses extracted and saved to $output_file"
+if [ -n "$output_file" ]; then
+  extract_ips | sort -u > "$output_file"
+  echo "IP addresses extracted and saved to $output_file"
+else
+  extract_ips | sort -u
+fi
