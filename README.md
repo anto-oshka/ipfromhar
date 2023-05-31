@@ -1,6 +1,6 @@
 ## IP Extraction Script
 
-This script is a command-line tool for extracting unique IP addresses from a list of URLs. It takes an input file containing a list of URLs and outputs the extracted IP addresses to an output file.
+This script is a command-line tool for extracting unique IP addresses from a HAR file. It takes a HAR file as input and outputs the extracted IP addresses to an output file.
 
 ### Prerequisites
 
@@ -11,11 +11,11 @@ This script is a command-line tool for extracting unique IP addresses from a lis
 ### Usage
 
 ```bash
-./ipfromhar.sh -i <input_file> -o <output_file>
+./ipfromhar.sh -i <input_file> [-o <output_file>]
 ```
 
 - `<input_file>`: Specify the path to the HAR file.
-- `<output_file>`: Specify the path to the file where the extracted IP addresses will be saved.
+- `<output_file>` (optional): Specify the path to the file where the extracted IP addresses will be saved. If not provided, the IP addresses will be displayed in the console.
 
 ### Example
 
@@ -31,7 +31,7 @@ This script is a command-line tool for extracting unique IP addresses from a lis
 1. The script reads the input file and extracts the domain names from the URLs.
 2. It performs a DNS lookup for each domain name to obtain the IP addresses.
 3. The IP addresses are sorted and filtered to remove duplicates.
-4. Finally, the unique IP addresses are saved to the output file.
+4. Finally, the unique IP addresses are saved to the output file, if provided, or displayed in the console.
 
 **Note:** The script assumes that the necessary dependencies (`jq` and `host`) are installed and accessible in the system's `$PATH`.
 
